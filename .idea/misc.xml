@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Study/Android/AndroidProjects/GeoQuiz_v2/app/src/main/res/layout-land/activity_main.xml" value="0.16490299823633156" />
         <entry key="..\:/Study/Android/AndroidProjects/GeoQuiz_v2/app/src/main/res/layout/activity_main.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.18474426807760141" />
+        <entry key="app/src/main/res/layout/activity_cheat.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21822916666666667" />
       </map>
     </option>
   </component>

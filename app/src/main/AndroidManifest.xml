@@ -3,18 +3,18 @@
     package="com.example.geoquiz">
 
     <application
-
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GeoQuiz"
-        >
-
-        <activity android:name=".MainActivity"
-            android:exported="true"
+        android:theme="@style/Theme.GeoQuiz">
+        <activity
+            android:name=".CheatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
