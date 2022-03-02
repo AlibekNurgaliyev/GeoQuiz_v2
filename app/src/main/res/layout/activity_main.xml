@@ -68,4 +68,11 @@
             android:src="@drawable/arrow_right"
             />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/number_of_cheats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        tools:text="@string/cheat_count" />
 </LinearLayout>

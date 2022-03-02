@@ -9,6 +9,7 @@
     tools:context=".CheatActivity">
 
     <TextView
+        android:id="@+id/warning_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
@@ -27,4 +28,10 @@
         android:layout_height="wrap_content"
         android:text="@string/show_answer_button" />
 
+    <TextView
+        android:id="@+id/api_code_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:text="@string/api_level" />
 </LinearLayout>

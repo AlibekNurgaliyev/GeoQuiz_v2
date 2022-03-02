@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 private const val TAG = "QuizViewModel"
 
 class QuizViewModel : ViewModel() {
+    var numberOfCheats = 0
     var correctAnswerNumber = 0
     var currentIndex = 0
     var isCheater = false
