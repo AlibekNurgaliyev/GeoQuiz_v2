@@ -1,17 +1,21 @@
 package com.example.geoquiz
 
+import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
+private const val REQUEST_CODE_CHEAT = 0
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
@@ -19,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton: ImageButton
     private lateinit var prevButton: ImageButton
     private lateinit var questionTextView: TextView
-    private lateinit var cheatButton : Button
+    private lateinit var cheatButton: Button
 
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProvider(this).get(QuizViewModel::class.java)
@@ -27,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        Log.i(TAG,"onSaveInstanceState called")
+        Log.i(TAG, "onSaveInstanceState called")
         outState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
 
@@ -36,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
 
-        val currentIndex = savedInstanceState?.getInt(KEY_INDEX,0)?:0
+        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
 
         cheatButton = findViewById(R.id.cheat_button)
@@ -58,10 +62,10 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
-        cheatButton.setOnClickListener{
+        cheatButton.setOnClickListener {
             val answerIsTrue = quizViewModel.currentQuestionAnswer
-            val intent =CheatActivity.newIntent(this@MainActivity,answerIsTrue)
-            startActivity(intent)
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
 
 
@@ -78,12 +82,21 @@ class MainActivity : AppCompatActivity() {
         updateQuestion()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+        }
+    }
 
     private fun updateQuestion() {
         trueButton.isEnabled = true
         falseButton.isEnabled = true
 
-        val questionTextResId=quizViewModel.currentQuestionText
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
 
@@ -91,14 +104,11 @@ class MainActivity : AppCompatActivity() {
         trueButton.isEnabled = false
         falseButton.isEnabled = false
         val correctAnswer = quizViewModel.currentQuestionAnswer
-        var messageResId : Int = 0
 
-        if (userAnswer == correctAnswer){
-            messageResId =R.string.correct_toast
-//            quizViewModel.correctAnswerNumber++
-        }
-        else {
-            messageResId = R.string.incorrect_toast
+        val messageResId = when {
+            quizViewModel.isCheater -> R.string.judgment_toast
+            userAnswer == correctAnswer -> R.string.correct_toast
+            else -> R.string.incorrect_toast
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
@@ -134,6 +144,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d(TAG, "onDestroy() called")
     }
-
-
 }
