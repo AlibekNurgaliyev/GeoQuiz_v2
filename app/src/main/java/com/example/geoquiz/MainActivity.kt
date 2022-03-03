@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState, outPersistentState)
         Log.i(TAG, "onSaveInstanceState called")
         outState.putInt(KEY_INDEX, quizViewModel.currentIndex)
+
     }
 
     @SuppressLint("RestrictedApi")

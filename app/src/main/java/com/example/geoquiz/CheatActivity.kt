@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 const val EXTRA_ANSWER_SHOWN = "answer_shown"
 const val EXTRA_CHEAT_COUNT = "cheat_count"
 private const val EXTRA_ANSWER_IS_TRUE = "answer_is_true"
+private const val ANSWER_KEY = "answer"
 
 private var answerIsTrue = false
 var cheatCounts = 1
@@ -50,6 +52,16 @@ class CheatActivity : AppCompatActivity() {
 
         apiVersionTextView.text =
             resources.getString(R.string.api_level, Build.VERSION.SDK_INT.toString())
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(ANSWER_KEY, answerIsTrue.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        answerTextView.text = savedInstanceState.getString(ANSWER_KEY,"")
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean, cheatCounts: Int) {
